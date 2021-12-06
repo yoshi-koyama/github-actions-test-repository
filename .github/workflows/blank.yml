@@ -29,9 +29,9 @@ jobs:
         
       - name: Echo github.action_path
         run: |
-          echo "github.action_path: ${{ github.action_path }}"   
-          echo "github.event_path: ${{ github.event_path }}"
-          echo "name: ${{ name }}"
+          echo github.action_path: ${{ github.action_path }}
+          echo github.event_path: ${{ github.event_path }}
+          echo name: ${{ name }}
 
       - name: Slack webhook
         if: failure()
