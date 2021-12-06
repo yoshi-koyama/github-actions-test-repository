@@ -32,7 +32,7 @@ jobs:
           echo github.action_path: ${{ github.action_path }}
           echo github.event_path: ${{ github.event_path }}
           echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-          echo {name}
+          echo ${name}
 
       - name: Slack webhook
         if: failure()
