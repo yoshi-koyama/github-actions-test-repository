@@ -26,6 +26,12 @@ jobs:
       - uses: actions/checkout@v2
       - name: Try to fail
         run: exit 0
+        
+      - name: Echo github.action_path
+        run: |
+          echo ${{ github.action_path }}
+          echo ${{ github.event_path }}          
+          echo ${{ github.event_path }}          
 
       - name: Slack webhook
         if: failure()
