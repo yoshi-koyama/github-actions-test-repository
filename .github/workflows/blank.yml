@@ -33,6 +33,12 @@ jobs:
           echo github.event_path: ${{ github.event_path }}
           echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
           echo $name
+      - name: Echo URL and BODY
+        run: |
+          URL=$(gh pr view ${{matrix.branch}} --json url | jq -r ' .url')
+          BODY=$(gh pr view ${{matrix.branch}} --json body | jq -r ' .body')
+          echo URL
+          echo BODY
 
       - name: Slack webhook
         if: failure()
