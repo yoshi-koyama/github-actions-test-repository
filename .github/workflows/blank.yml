@@ -62,23 +62,23 @@ jobs:
                         "text"
                     ],
                     "color": "danger",
-                    "pretext": ":red_circle: ${GITHUB_WORKFLOW}",
+                    "pretext": ":red_circle: '"${GITHUB_WORKFLOW}"'",
                     "title": "Dev MemberAPI E2E Test",
                     "text": "結果の詳細は<http://www.example.com|こちら>から参照してください:sob:",
                     "fields": [
                         {
                             "title": "Actor",
-                            "value": "${GITHUB_ACTOR}",
+                            "value": ${GITHUB_ACTOR},
                             "short": "true"
                         },
                         {
                             "title": "Event Name",
-                            "value": "${GITHUB_EVENT_NAME}",
+                            "value": ${GITHUB_EVENT_NAME},
                             "short": "true"
                         },
                         {
                             "title": "Action URL",
-                            "value": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+                            "value": "'"${GITHUB_SERVER_URL}"'/'"${GITHUB_REPOSITORY}"'/actions/runs/'"${GITHUB_RUN_ID}"'"
                         }
                     ]
                 }
