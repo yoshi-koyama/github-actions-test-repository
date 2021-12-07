@@ -55,6 +55,7 @@ jobs:
         if: failure()
         run: |
           WORKFLOW = ${GITHUB_WORKFLOW}
+          ACTOR = ${GITHUB_ACTOR}
           jq -n '{
             "attachments": [
                 {
@@ -69,7 +70,7 @@ jobs:
                     "fields": [
                         {
                             "title": "Actor",
-                            "value": ${{GITHUB_ACTOR}},
+                            "value": ${ACTOR},
                             "short": "true"
                         },
                         {
