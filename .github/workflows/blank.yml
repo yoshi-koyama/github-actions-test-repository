@@ -57,6 +57,7 @@ jobs:
           WORKFLOW: ${GITHUB_WORKFLOW}
           ACTOR: ${GITHUB_ACTOR}
         run: |
+          echo $WORKFLOW
           jq -n '{
             "attachments": [
                 {
