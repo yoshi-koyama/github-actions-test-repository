@@ -27,32 +27,10 @@ jobs:
       - name: Try to fail
         run: exit 0
         
-      - name: Echo github.action_path
-        env:
-          ACTIONS_URL: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+      - name: Echo Github info
         run: |
-          echo github.action_path: ${{ github.action_path }}
-          echo github.event_path: ${{ github.event_path }}
           URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-          echo ${URL}
-          echo $ACTIONS_URL
-      - name: Echo URL and BODY
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          URL=$(gh pr view ${{matrix.branch}} --json url | jq -r ' .url')
-          gh pr view ${{matrix.branch}} --json url | jq -r ' .url' | echo
-          BODY=$(gh pr view ${{matrix.branch}} --json body | jq -r ' .body')
-          gh pr view ${{matrix.branch}} --json body | jq -r ' .body' | echo
-          echo ${URL}
-          echo ${BODY}
-      - name: Echo github info
-        run: |
-          echo ${{ github.workflow }}
-          echo ${{ github.event.pull_request.html_url }}
-          echo ${{ github.event.commit_comment.html_url }}
-          echo ${{ github.event.commit_comment.body }}
-        
+          echo ${URL}  
 
       - name: Slack webhook
         if: failure()
