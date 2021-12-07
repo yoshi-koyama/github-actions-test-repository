@@ -43,8 +43,11 @@ jobs:
           gh pr view ${{matrix.branch}} --json body | jq -r ' .body' | echo
           echo ${URL}
           echo ${BODY}
-      - name: Echo github as json
-        run: echo ${{ github.workflow }}
+      - name: Echo github info
+        run: |
+          echo ${{ github.workflow }}
+          echo ${{ github.event.pull_request.html_url }}
+        
 
       - name: Slack webhook
         if: failure()
