@@ -29,11 +29,12 @@ jobs:
         
       - name: Echo github.action_path
         env:
-          ACTIONS_URL: "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          ACTIONS_URL: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
         run: |
           echo github.action_path: ${{ github.action_path }}
           echo github.event_path: ${{ github.event_path }}
-          echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          URL = ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          echo ${URL}
           echo $ACTIONS_URL
       - name: Echo URL and BODY
         env:
