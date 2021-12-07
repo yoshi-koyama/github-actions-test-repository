@@ -47,6 +47,8 @@ jobs:
         run: |
           echo ${{ github.workflow }}
           echo ${{ github.event.pull_request.html_url }}
+          echo ${{ github.event.commit_comment.html_url }}
+          echo ${{ github.event.commit_comment.body }}
         
 
       - name: Slack webhook
