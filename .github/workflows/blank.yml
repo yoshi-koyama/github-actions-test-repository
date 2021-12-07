@@ -54,6 +54,7 @@ jobs:
       - name: Slack webhook
         if: failure()
         run: |
+          WORKFLOW = ${GITHUB_WORKFLOW}
           jq -n '{
             "attachments": [
                 {
@@ -62,7 +63,7 @@ jobs:
                         "text"
                     ],
                     "color": "danger",
-                    "pretext": ":red_circle: ${{GITHUB_WORKFLOW}}",
+                    "pretext": ":red_circle: ${WORKFLOW}",
                     "title": "Dev MemberAPI E2E Test",
                     "text": "結果の詳細は<http://www.example.com|こちら>から参照してください:sob:",
                     "fields": [
