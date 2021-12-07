@@ -54,10 +54,9 @@ jobs:
       - name: Slack webhook
         if: failure()
         env:
-          WORKFLOW: ${GITHUB_WORKFLOW}
-          ACTOR: ${GITHUB_ACTOR}
+          ACTIONS_URL: ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
         run: |
-          echo $WORKFLOW
+          echo $ACTIONS_URL
           jq -n '{
             "attachments": [
                 {
@@ -72,7 +71,7 @@ jobs:
                     "fields": [
                         {
                             "title": "Actor",
-                            "value": "'"$ACTOR"'",
+                            "value": "'"$GITHUB_ACTOR"'",
                             "short": "true"
                         },
                         {
