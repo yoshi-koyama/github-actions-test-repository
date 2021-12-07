@@ -72,12 +72,12 @@ jobs:
                     "fields": [
                         {
                             "title": "Actor",
-                            "value": "$ACTOR",
+                            "value": "'"$ACTOR"'",
                             "short": "true"
                         },
                         {
                             "title": "Event Name",
-                            "value": "Event Name Value",
+                            "value": "'"$GITHUB_EVENT_NAME"'",
                             "short": "true"
                         },
                         {
