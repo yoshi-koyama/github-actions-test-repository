@@ -25,33 +25,43 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Try to fail
-        run: exit 0
+        run: exit 1
         
-      - name: Echo github.action_path
+      - name: Echo Github info
         run: |
-          echo github.action_path: ${{ github.action_path }}
-          echo github.event_path: ${{ github.event_path }}
-          echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
-          echo $name
-      - name: Echo URL and BODY
-        env:
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        run: |
-          URL=$(gh pr view ${{matrix.branch}} --json url | jq -r ' .url')
-          gh pr view ${{matrix.branch}} --json url | jq -r ' .url' | echo
-          BODY=$(gh pr view ${{matrix.branch}} --json body | jq -r ' .body')
-          gh pr view ${{matrix.branch}} --json body | jq -r ' .body' | echo
-          echo ${URL}
-          echo ${BODY}
-      - name: Echo github info
-        run: |
-          echo ${{ github.workflow }}
-          echo ${{ github.event.pull_request.html_url }}
-          echo ${{ github.event.commit_comment.html_url }}
-          echo ${{ github.event.commit_comment.body }}
-        
+          URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          echo ${URL}  
 
       - name: Slack webhook
         if: failure()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/${{secrets.SLACK_WEBHOOK}}
+          URL=${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
+          jq -n '{
+            "attachments": [
+                {
+                    "fallback": "E2Eテストが失敗しました。",
+                    "mrkdwn_in": [
+                        "text"
+                    ],
+                    "color": "danger",
+                    "pretext": ":red_circle: '"$GITHUB_WORKFLOW"'",
+                    "title": "Dev MemberAPI E2E Test",
+                    "text": "結果の詳細は<http://www.example.com|こちら>から参照してください:sob:",
+                    "fields": [
+                        {
+                            "title": "Actor",
+                            "value": "'"$GITHUB_ACTOR"'",
+                            "short": "true"
+                        },
+                        {
+                            "title": "Event Name",
+                            "value": "'"$GITHUB_EVENT_NAME"'",
+                            "short": "true"
+                        },
+                        {
+                            "title": "Action URL",
+                            "value": "'"${URL}"'"
+                        }
+                    ]
+                }
+            ]}' | curl -H 'Content-Type: application/json' -d @- https://hooks.slack.com/services/${{secrets.SLACK_WEBHOOK}}
