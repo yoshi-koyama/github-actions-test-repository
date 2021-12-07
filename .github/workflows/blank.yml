@@ -36,7 +36,9 @@ jobs:
       - name: Echo URL and BODY
         run: |
           URL=$(gh pr view ${{matrix.branch}} --json url | jq -r ' .url')
+          gh pr view ${{matrix.branch}} --json url | jq -r ' .url' | echo
           BODY=$(gh pr view ${{matrix.branch}} --json body | jq -r ' .body')
+          gh pr view ${{matrix.branch}} --json body | jq -r ' .body' | echo
           echo ${URL}
           echo ${BODY}
 
