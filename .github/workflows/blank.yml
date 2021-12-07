@@ -37,4 +37,33 @@ jobs:
       - name: Slack webhook
         if: failure()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/${{secrets.SLACK_WEBHOOK}}
+          URL=$(gh pr view ${{matrix.branch}} --json url | jq -r ' .url')
+          BODY=$(gh pr view ${{matrix.branch}} --json body | jq -r ' .body')
+
+          jq -n '{
+            "blocks": [
+              {
+                "type": "section",
+                "text": {
+                  "type": "mrkdwn",
+                  "text": "This PR is now ready to merge.\nPlease make this PR ready for review.\n'"${URL}"'"
+                }
+              },
+              {
+                "type": "section",
+                "text": 
+                  {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n'"${{matrix.branch}}"'"
+                  }
+              },
+              {
+                "type": "section",
+                "text": 
+                  {
+                    "type": "mrkdwn",
+                    "text": "*description:*\n'"${BODY}"'"
+                  }
+              }
+            ]
+          }' | curl -H 'Content-Type: application/json' -d @- ${{ secrets.XXXX }}
