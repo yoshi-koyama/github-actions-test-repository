@@ -25,7 +25,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
       - name: Try to fail
-        run: exit 0
+        run: exit 1
         
       - name: Echo github.action_path
         run: |
@@ -54,4 +54,37 @@ jobs:
       - name: Slack webhook
         if: failure()
         run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/${{secrets.SLACK_WEBHOOK}}
+          jq -n '{
+            "attachments": [
+                {
+                    "fallback": "E2Eテストが失敗しました。",
+                    "mrkdwn_in": [
+                        "text"
+                    ],
+                    "color": "danger",
+                    "pretext": ":red_circle: E2Eテストが失敗しました。",
+                    "title": "Dev MemberAPI E2E Test",
+                    "text": "結果の詳細は<http://www.example.com|こちら>から参照してください:sob:",
+                    "fields": [
+                        {
+                            "title": "fields attachment1",
+                            "value": "fields test",
+                            "short": "true"
+                        },
+                        {
+                            "title": "fields attachment2",
+                            "value": "fields test",
+                            "short": "true"
+                        },
+                        {
+                            "title": "fields attachmen32",
+                            "value": "fields test",
+                            "short": "true"
+                        },
+                        {
+                            "title": "fields attachment4",
+                            "value": "http://www.example.com"
+                        }
+                    ]
+                }
+            ]}' | curl -H 'Content-Type: application/json' -d @- https://hooks.slack.com/services/${{secrets.SLACK_WEBHOOK}}
