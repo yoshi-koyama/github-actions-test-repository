@@ -62,28 +62,23 @@ jobs:
                         "text"
                     ],
                     "color": "danger",
-                    "pretext": ":red_circle: E2Eテストが失敗しました。",
+                    "pretext": ":red_circle: ${GITHUB_WORKFLOW}",
                     "title": "Dev MemberAPI E2E Test",
                     "text": "結果の詳細は<http://www.example.com|こちら>から参照してください:sob:",
                     "fields": [
                         {
-                            "title": "fields attachment1",
-                            "value": "fields test",
+                            "title": "Actor",
+                            "value": "${GITHUB_ACTOR}",
                             "short": "true"
                         },
                         {
-                            "title": "fields attachment2",
-                            "value": "fields test",
+                            "title": "Event Name",
+                            "value": "${GITHUB_EVENT_NAME}",
                             "short": "true"
                         },
                         {
-                            "title": "fields attachmen32",
-                            "value": "fields test",
-                            "short": "true"
-                        },
-                        {
-                            "title": "fields attachment4",
-                            "value": "http://www.example.com"
+                            "title": "Action URL",
+                            "value": "${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
                         }
                     ]
                 }
