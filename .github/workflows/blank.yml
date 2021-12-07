@@ -37,8 +37,8 @@ jobs:
         run: |
           URL=$(gh pr view ${{matrix.branch}} --json url | jq -r ' .url')
           BODY=$(gh pr view ${{matrix.branch}} --json body | jq -r ' .body')
-          echo URL
-          echo BODY
+          echo ${URL}
+          echo ${BODY}
 
       - name: Slack webhook
         if: failure()
