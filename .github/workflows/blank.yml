@@ -34,11 +34,20 @@ jobs:
           echo ${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}
           echo $name
       - name: Echo URL and BODY
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         run: |
           URL=$(gh pr view ${{matrix.branch}} --json url | jq -r ' .url')
+          gh pr view ${{matrix.branch}} --json url | jq -r ' .url' | echo
           BODY=$(gh pr view ${{matrix.branch}} --json body | jq -r ' .body')
-          echo URL
-          echo BODY
+          gh pr view ${{matrix.branch}} --json body | jq -r ' .body' | echo
+          echo ${URL}
+          echo ${BODY}
+      - name: Echo github info
+        run: |
+          echo ${{ github.workflow }}
+          echo ${{ github.event.pull_request.html_url }}
+        
 
       - name: Slack webhook
         if: failure()
